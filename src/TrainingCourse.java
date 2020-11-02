@@ -9,5 +9,6 @@ public class TrainingCourse {
 
     public static void main(String[] args) {
         new TrainingCourse();
+
     }
 }
