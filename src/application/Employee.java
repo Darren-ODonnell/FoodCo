@@ -62,4 +62,7 @@ public class Employee {
                 '}';
     }
 
+    public boolean compare(Employee emp) {
+        return this.getEmployeeNumber().equals(emp.getEmployeeNumber());
+    }
 }

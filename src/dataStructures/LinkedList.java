@@ -65,7 +65,7 @@ public class LinkedList<T> implements LinkedListADT<T> {
         return this.count;
     }
 
-    //  Returns a string representation obd f this list
+    //  Returns a string representation of this list
 
     public String toString()
     {
@@ -90,14 +90,18 @@ public class LinkedList<T> implements LinkedListADT<T> {
         while(current.getNext() != null && found == false) {
             current = current.getNext();
             if (current.getElement() == element)
-                found = true
+                found = true;
         }
-
-
-
-
         return found;
 
+    }
+
+    public LinearNode<T> getFirst() {
+        return this.front;
+    }
+
+    public LinearNode<T> getNext(LinearNode<T> node) {
+        return node.getNext();
     }
 
 }

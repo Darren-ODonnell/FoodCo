@@ -1,10 +1,11 @@
 package application;
 
 import GUI.Input;
+import dataStructures.LinearNode;
 import dataStructures.LinkedList;
 
 public class Employees {
-    LinkedList<Employee>employees = new LinkedList<>();
+    LinkedList<Employee> employees = new LinkedList<>();
     Input input = new Input();
 
 
@@ -44,20 +45,44 @@ public class Employees {
         errMessage = "Number out of range, please re-enter between " + min + " and " + max;
         emp.setYearsWorking(input.number(prompt,min,max,errMessage));
 
-        // enter courseName
-        prompt = "Input the course name of this employee";
-        String pattern = "^(?i)FOOD.*"; //Allows anything to be input but the first 4 letter must be FOOD upper/lowercase
-        String courseName = input.string(prompt);
-        if(courseName.matches(pattern))
-            emp.setCourseName(input.string(prompt));
-        else
-            emp.setCourseName("ERROR");
-        
+        // Only allowed do courses if they have over 5 years experience
+        if (emp.getYearsWorking() > 5) {
+            // enter courseName
+            prompt = "Input the course name of this employee";
+            String pattern = "^(?i)FOOD.*"; //Allows anything to be input but the first 4 letter must be FOOD upper/lowercase
+            String courseName = input.string(prompt);
+
+            if (courseName.matches(pattern) )
+                emp.setCourseName(input.string(prompt));
+            else
+                emp.setCourseName("ERROR");
+        }
+
         // set employeeNumber
-        lastEmployeeNumber += 1;
-        emp.setEmployeeNumber(String.valueOf(lastEmployeeNumber));
+
+        do {
+            lastEmployeeNumber += 1;
+            emp.setEmployeeNumber(String.valueOf(lastEmployeeNumber));
+
+        } while(findEmployee(emp));
 
         employees.add(emp);
     }
+
+    private boolean findEmployee(Employee emp) {
+
+        boolean found = false;
+
+        LinearNode<Employee> current = employees.getFirst();
+
+        while (current != null && !found ) {
+            found = current.getElement().compare(emp);
+            current = current.getNext();
+        }
+
+        return found;
+
+    }
+
 
 }
