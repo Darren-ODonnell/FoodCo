@@ -61,7 +61,7 @@ public class Employee {
                 ", courseName='" + courseName + '\'' +
                 '}';
     }
-
+    //Compares employee numbers of 2 employees and returns true or false accordingly
     public boolean compare(Employee emp) {
         return this.getEmployeeNumber().equals(emp.getEmployeeNumber());
     }

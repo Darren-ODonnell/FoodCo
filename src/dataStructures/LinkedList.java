@@ -7,8 +7,8 @@ public class LinkedList<T> implements LinkedListADT<T> {
 
     private int count;  // the current number of elements in the list
     private LinearNode<T> front; //pointer to the first element 
-    private LinearNode<T> last; //pointer to the last element 
-
+    private LinearNode<T> last; //pointer to the last element
+    private LinearNode<T> current;
     //-----------------------------------------------------------------
     //  Creates an empty list.
     //-----------------------------------------------------------------
@@ -17,23 +17,25 @@ public class LinkedList<T> implements LinkedListADT<T> {
         this.count = 0;
         this.last = null;
         this.front = null;
+        this.current = null;
     }
 
     //  Adds one element to the end of this list
     public void add (T element)
-    {      
-        LinearNode<T> node = new LinearNode<T> (element); 
+    {
+        LinearNode<T> node = new LinearNode<T> (element);
 
-        if (size() == 0) {  
-            this.last = node; // This is the last and the 
+        if (size() == 0) {
+            this.last = node; // This is the last and the
             this.front = node; // first node
             this.count++;
+            this.current = front;
         }//end if
         else
-        { 
+        {
             last.setNext(node); // add node to the end of the list
             last = node; // now make this the new last node.
-            count++;   
+            count++;
         } //end if
     }
 
@@ -69,7 +71,7 @@ public class LinkedList<T> implements LinkedListADT<T> {
 
     public String toString()
     {
-        LinearNode<T> current = this.front;
+        //LinearNode<T> current = this.front;
         String fullList = "";
 
         for (current = this.front; current != null; current = current.getNext())
@@ -85,7 +87,7 @@ public class LinkedList<T> implements LinkedListADT<T> {
         // start at head of list
         LinearNode current = this.front;
 
-        // while gwetnext() is not null check list contents
+        // while getnext() is not null check list contents
 
         while(current.getNext() != null && found == false) {
             current = current.getNext();
@@ -100,8 +102,14 @@ public class LinkedList<T> implements LinkedListADT<T> {
         return this.front;
     }
 
-    public LinearNode<T> getNext(LinearNode<T> node) {
-        return node.getNext();
+    public T getNext() {
+        LinearNode<T> node = current.getNext();
+        current = node;
+        return current.getElement();
     }
 
+
+    public boolean hasNext() {
+        return (current != last);
+    }
 }

@@ -11,16 +11,19 @@ public class Employees {
 
     final int START_EMPLOYEE_NUMBER = 1000;
     int lastEmployeeNumber = START_EMPLOYEE_NUMBER;
-    final int  MAX_EMPLOYEES = 10;
 
+    public Employees() {
+
+    }
+    //Displays all employees
     public void displayAll() {
 
     }
-
+    //Display all employees currently on a course
     public void displayAllOnCourses() {
 
     }
-
+    //Removes employee with matching employee number
     public void remove(int empNumber) {
 
     }
@@ -66,23 +69,32 @@ public class Employees {
 
         } while(findEmployee(emp));
 
-        employees.add(emp);
+        if(!employees.exists(emp))
+            employees.add(emp);
     }
 
+    //Scans list to find matching employee
     private boolean findEmployee(Employee emp) {
-
+//
         boolean found = false;
+//
+//        LinearNode<Employee> current = employees.getFirst();
+//
+//        while (current != null && !found ) {
+//            found = current.getElement().compare(emp);
+//            current = current.getNext();
+//        }
+//
+//        return found;
 
-        LinearNode<Employee> current = employees.getFirst();
-
-        while (current != null && !found ) {
-            found = current.getElement().compare(emp);
-            current = current.getNext();
+        while(employees.hasNext() && !found) {
+            Employee employee = employees.getNext();
+            if (employee.compare(emp)) {
+                found = true;
+            }
         }
 
-        return found;
 
     }
-
 
 }

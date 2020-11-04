@@ -12,23 +12,21 @@ public class TrainingCourseTests {
     @Before
     public void setupTests() {
         display = new Display();
-
     }
 
-    @Test
-    public void inputEmployees() {
-        // add some employees
-        LinkedList<Employee> employees = new LinkedList<>();
-        Employee emp =
-
-
-
-        employees.add(emp);
-
-
-        assertEquals();
-
-    }
+//    @Test
+//    public void inputEmployees() {
+//        // add some employees
+//        LinkedList<Employee> employees = new LinkedList<>();
+//        Employee emp = new Employee("12345","da",3,"");
+//
+//
+//        employees.add(emp);
+//
+//
+//        assertEquals();
+//
+//    }
 
 
 
