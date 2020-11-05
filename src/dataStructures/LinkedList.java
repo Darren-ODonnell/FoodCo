@@ -3,6 +3,8 @@ package dataStructures;
 //This class implements the ADT definition of a linked list using the same signatures. Note that we can add extra methods
 //here once all of the methods listed in the ADT interface are included.
 
+import application.Employee;
+
 public class LinkedList<T> implements LinkedListADT<T> {
 
     private int count;  // the current number of elements in the list
@@ -29,7 +31,6 @@ public class LinkedList<T> implements LinkedListADT<T> {
             this.last = node; // This is the last and the
             this.front = node; // first node
             this.count++;
-            this.current = front;
         }//end if
         else
         {
@@ -98,16 +99,21 @@ public class LinkedList<T> implements LinkedListADT<T> {
 
     }
 
-    public LinearNode<T> getFirst() {
-        return this.front;
-    }
-
     public T getNext() {
-        LinearNode<T> node = current.getNext();
-        current = node;
-        return current.getElement();
-    }
 
+
+        if (front != null) // implies non empty list
+            if(current == null) { // implies no list traverse requested
+                current = front;
+
+            } else {
+                current = current.getNext();
+
+            }
+
+        return current.getElement();
+
+    }
 
     public boolean hasNext() {
         return (current != last);

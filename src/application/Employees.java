@@ -1,5 +1,6 @@
 package application;
 
+import GUI.Display;
 import GUI.Input;
 import dataStructures.LinearNode;
 import dataStructures.LinkedList;
@@ -7,6 +8,7 @@ import dataStructures.LinkedList;
 public class Employees {
     LinkedList<Employee> employees = new LinkedList<>();
     Input input = new Input();
+    Display win = new Display();
 
 
     final int START_EMPLOYEE_NUMBER = 1000;
@@ -36,6 +38,21 @@ public class Employees {
         Employee emp = new Employee();
         String prompt, errMessage;
         int min, max;
+        boolean found = true;
+        String regexEmpNo = "^[0-9]{5}$";
+        prompt = "Enter Employee Number - 5 digits";
+        String empNo;
+        // Enter Employee Number
+        do {
+            // enter employee number
+
+            empNo = input.string(prompt, regexEmpNo);
+            emp.setEmployeeNumber(empNo);
+
+            if (found = findEmployee(emp))
+                win.showMessage("Error: Employee Number already exists - Please re-enter");
+
+        } while(found);
 
         // enter name
         prompt = "Input the name of this employee";
@@ -44,9 +61,11 @@ public class Employees {
         // enter yearsWorking
         min = 0;
         max = 100;
-        prompt = "Input the number of this employee";
+        prompt = "Input the years worked by this employee";
         errMessage = "Number out of range, please re-enter between " + min + " and " + max;
         emp.setYearsWorking(input.number(prompt,min,max,errMessage));
+
+
 
         // Only allowed do courses if they have over 5 years experience
         if (emp.getYearsWorking() > 5) {
@@ -61,40 +80,21 @@ public class Employees {
                 emp.setCourseName("ERROR");
         }
 
-        // set employeeNumber
-
-        do {
-            lastEmployeeNumber += 1;
-            emp.setEmployeeNumber(String.valueOf(lastEmployeeNumber));
-
-        } while(findEmployee(emp));
-
-        if(!employees.exists(emp))
-            employees.add(emp);
+        employees.add(emp);
     }
 
     //Scans list to find matching employee
     private boolean findEmployee(Employee emp) {
-//
-        boolean found = false;
-//
-//        LinearNode<Employee> current = employees.getFirst();
-//
-//        while (current != null && !found ) {
-//            found = current.getElement().compare(emp);
-//            current = current.getNext();
-//        }
-//
-//        return found;
 
-        while(employees.hasNext() && !found) {
-            Employee employee = employees.getNext();
-            if (employee.compare(emp)) {
-                found = true;
+        boolean found = false;
+        if(employees.size() > 0) {
+            while (employees.hasNext() && !found) {
+                Employee employee = employees.getNext();
+                found = employee.compare(emp);
             }
         }
 
-
+    return found;
     }
 
 }
