@@ -1,3 +1,8 @@
+/**file name: TrainingCourse
+ * Author: Darren O'Donnell
+ * Student number: C19313413
+ * Description of class: Main class of the project, responsible for the running of it
+ */
 import GUI.Input;
 import application.Employee;
 import application.Employees;

@@ -1,3 +1,8 @@
+/**file name: LinkedList
+ * Author: Darren O'Donnell
+ * Student number: C19313413
+ * Description of class: Allows user to make a LinkedList and allows access to methods for manipulating the data inside
+ * */
 package dataStructures;
 
 //This class implements the ADT definition of a linked list using the same signatures. Note that we can add extra methods
@@ -27,17 +32,51 @@ public class LinkedList<T> implements LinkedListADT<T> {
     {
         LinearNode<T> node = new LinearNode<T> (element);
 
-        if (size() == 0) {
-            this.last = node; // This is the last and the
+        if (count == 0)
             this.front = node; // first node
-            this.count++;
-        }//end if
         else
-        {
             last.setNext(node); // add node to the end of the list
-            last = node; // now make this the new last node.
-            count++;
-        } //end if
+
+        last = node;
+        count++;
+    }
+
+    //Adds an element to the list at the index provided
+    public void add(T element, int index){
+
+        LinearNode<T> prev = new LinearNode<T> ();
+        LinearNode<T> next = new LinearNode<T> ();
+        LinearNode<T> newNode = new LinearNode<T> (element);
+
+/** Needed above where this add is called, instead of in here
+        //if(index > count){
+            //Error
+            //get a new number
+            }
+            if(index == count){
+                add(emp);
+            }
+
+ **/
+        if (size() == 0) {
+            this.last = newNode; // This is the last and the
+            this.front = newNode; // first node
+            this.current = newNode; // current node
+            this.count++;
+        }
+        // move current to position newnode will be inserted
+        int position = 1;
+        current = front;
+        while(index != position) {
+            prev = current;
+            current=current.getNext();
+            position++;
+        }
+        prev.setNext(newNode);
+        newNode.setNext(current);
+        count++;
+        
+
     }
 
     //  Removes and returns the first element from this list
@@ -101,14 +140,11 @@ public class LinkedList<T> implements LinkedListADT<T> {
 
     public T getNext() {
 
-
         if (front != null) // implies non empty list
             if(current == null) { // implies no list traverse requested
                 current = front;
-
             } else {
                 current = current.getNext();
-
             }
 
         return current.getElement();
@@ -117,5 +153,20 @@ public class LinkedList<T> implements LinkedListADT<T> {
 
     public boolean hasNext() {
         return (current != last);
+    }
+
+    public T get(int index) {
+        LinearNode<T> node = front;
+        int position = 1;
+
+        if(index == size())
+            node = last;
+        else
+            while (position != index) {
+                node = node.getNext();
+                position++;
+            }
+
+        return node.getElement();
     }
 }

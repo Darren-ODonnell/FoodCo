@@ -1,3 +1,8 @@
+/**file name: Display
+ * Author: Darren O'Donnell
+ * Student number: C19313413
+ * Description of class: Handles all code relating to the display using Swing
+ */
 package GUI;//
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by Fernflower decompiler)

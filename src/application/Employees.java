@@ -1,3 +1,8 @@
+/**file name: Employees
+ * Author: Darren O'Donnell
+ * Student number: C19313413
+ * Description of class: Handles the actions associated with the list of employees
+ */
 package application;
 
 import GUI.Display;
@@ -5,11 +10,12 @@ import GUI.Input;
 import dataStructures.LinearNode;
 import dataStructures.LinkedList;
 
+import java.util.List;
+
 public class Employees {
     LinkedList<Employee> employees = new LinkedList<>();
     Input input = new Input();
     Display win = new Display();
-
 
     final int START_EMPLOYEE_NUMBER = 1000;
     int lastEmployeeNumber = START_EMPLOYEE_NUMBER;
@@ -17,22 +23,21 @@ public class Employees {
     public Employees() {
 
     }
+
     //Displays all employees
     public void displayAll() {
 
     }
+
     //Display all employees currently on a course
     public void displayAllOnCourses() {
 
     }
+
     //Removes employee with matching employee number
     public void remove(int empNumber) {
 
     }
-//    String employeeNumber;
-//    String name;
-//    int yearsWorking;
-//    String courseName;
 
     public void enterEmployee() {
         Employee emp = new Employee();
@@ -81,6 +86,27 @@ public class Employees {
         }
 
         employees.add(emp);
+    }
+
+    //Add in chronological order of employeeNumber
+    private void add(Employee emp){
+        // case 1. no elements in list => insert at 1.
+        // case 2. somewhere in list in numerical order
+        // case 3. no elements greater => insert at end or at employees.size()
+        int position=1;
+
+        // case 1 - emplty employee list
+        if (employees.size() == 0)
+            employees.add(emp,position);
+        else {
+            // case 3
+            position = 2;
+            // run through list looking for position to insert new employee
+            while (position < employees.size() && emp.isLessThan(employees.get(position))) {
+                position++;
+            }
+            employees.add(emp,position);
+        }
     }
 
     //Scans list to find matching employee

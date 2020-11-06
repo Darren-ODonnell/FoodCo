@@ -1,3 +1,8 @@
+/**file name: Input
+ * Author: Darren O'Donnell
+ * Student number: C19313413
+ * Description of class: Handles all user input statements using Swing
+ */
 package GUI;
 
 import java.awt.*;

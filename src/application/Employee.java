@@ -1,3 +1,8 @@
+/**file name: Employee
+ * Author: Darren O'Donnell
+ * Student number: C19313413
+ * Description of class: Datatype of each singular employee
+ */
 package application;
 
 public class Employee {
@@ -64,5 +69,15 @@ public class Employee {
     //Compares employee numbers of 2 employees and returns true or false accordingly
     public boolean compare(Employee emp) {
         return this.getEmployeeNumber().equals(emp.getEmployeeNumber());
+    }
+
+    public boolean isLessThan(Employee emp) {
+        // -1 = this < that
+        // 0 = this = that
+        // 1 = this > that
+
+
+
+        return (this.getEmployeeNumber().compareTo(emp.getEmployeeNumber())<0);
     }
 }
