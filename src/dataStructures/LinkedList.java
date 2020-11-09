@@ -10,21 +10,24 @@ package dataStructures;
 
 import application.Employee;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class LinkedList<T> implements LinkedListADT<T> {
 
     private int count;  // the current number of elements in the list
     private LinearNode<T> front; //pointer to the first element 
     private LinearNode<T> last; //pointer to the last element
-    private LinearNode<T> current;
+    private LinearNode<T> current ;
+
     //-----------------------------------------------------------------
     //  Creates an empty list.
     //-----------------------------------------------------------------
     public LinkedList()
     {
         this.count = 0;
-        this.last = null;
-        this.front = null;
-        this.current = null;
+        this.last = new LinearNode<T>();
+        this.front = new LinearNode<T>();
+        this.current = new LinearNode<T>();
     }
 
     //  Adds one element to the end of this list
@@ -32,11 +35,14 @@ public class LinkedList<T> implements LinkedListADT<T> {
     {
         LinearNode<T> node = new LinearNode<T> (element);
 
-        if (count == 0)
+        if (count == 0) {
             this.front = node; // first node
+            this.last = node;
+        }
         else
             last.setNext(node); // add node to the end of the list
 
+        current = last;
         last = node;
         count++;
     }
@@ -75,7 +81,7 @@ public class LinkedList<T> implements LinkedListADT<T> {
         prev.setNext(newNode);
         newNode.setNext(current);
         count++;
-        
+
 
     }
 
@@ -94,6 +100,7 @@ public class LinkedList<T> implements LinkedListADT<T> {
         return result;
 
     }
+
 
     //  Returns true if this list contains no elements
     public boolean isEmpty()
@@ -166,7 +173,71 @@ public class LinkedList<T> implements LinkedListADT<T> {
                 node = node.getNext();
                 position++;
             }
-
+        current = node;
         return node.getElement();
     }
+
+    public void remove(T element){
+        LinearNode<T> previous;
+
+        switch(size()) {
+            case 0:
+                System.out.println("There are no nodes in the list");
+                break;
+            case 1:
+                if (current.getElement().equals(element)) {
+                    front = null;
+                    last = null;
+                } else
+                    System.out.println("This element is not in list - no element removed");
+                break;
+            default:
+                previous = getPointerToNode(element);
+
+                // first element in list to be deleted
+                if (previous == front) {
+                    front = front.getNext();
+                    current = front;
+                } else  // last element in list to be deleted
+                    if (previous.getNext() == last) {
+                        previous.setNext(null);
+                        last = previous;
+                        current = previous;
+                    } else { // not front or last
+
+                        current = previous.getNext();
+                        previous.setNext(current.getNext());
+                        current = previous;
+
+                    }
+                }
+
+                count--;
+        }
+
+    private LinearNode<T> getPointerToNode(T element) {
+        boolean same = false;
+        LinearNode<T> curr = front;
+        LinearNode<T> previous = new LinearNode<T>();
+
+        if(curr ==  null)
+            System.out.println("current is null");
+        else {
+
+            do {
+                previous = curr;
+                curr = curr.getNext();
+            } while (!curr.getElement().equals(element));
+        }
+        return previous;
+    }
+
+    public T getFirst(){
+        return this.front.getElement();
+
+    }
+    public T getLast(){
+        return this.last.getElement();
+    }
+
 }

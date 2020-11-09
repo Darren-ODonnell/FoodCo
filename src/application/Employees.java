@@ -13,7 +13,7 @@ import dataStructures.LinkedList;
 import java.util.List;
 
 public class Employees {
-    LinkedList<Employee> employees = new LinkedList<>();
+    public LinkedList<Employee> employees = new LinkedList<>();
     Input input = new Input();
     Display win = new Display();
 
@@ -110,7 +110,7 @@ public class Employees {
     }
 
     //Scans list to find matching employee
-    private boolean findEmployee(Employee emp) {
+    public boolean findEmployee(Employee emp) {
 
         boolean found = false;
         if(employees.size() > 0) {

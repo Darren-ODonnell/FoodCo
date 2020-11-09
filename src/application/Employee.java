@@ -80,4 +80,12 @@ public class Employee {
 
         return (this.getEmployeeNumber().compareTo(emp.getEmployeeNumber())<0);
     }
+
+
+    public boolean equals(Employee emp){
+        return (this.employeeNumber.equals(emp.employeeNumber) &&
+            this.name.equals(emp.name) &&
+            this.yearsWorking == emp.yearsWorking &&
+            this.courseName.equals(emp.courseName));
+    }
 }

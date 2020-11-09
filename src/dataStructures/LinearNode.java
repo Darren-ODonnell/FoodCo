@@ -10,7 +10,7 @@
     public class LinearNode<T>
     {
        private LinearNode<T> next;
-       private T element;
+       public T element;
     
        //---------------------------------------------------------
        //  Creates an empty node.
