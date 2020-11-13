@@ -29,6 +29,8 @@ public class Display {
 
     public void showMessage(String message) {
         JOptionPane.showMessageDialog((Component)null, message);
+
+
     }
 
     public void showMessage(List<String> myList){
@@ -60,6 +62,7 @@ public class Display {
         //Calls Original Show Message method to display
         showMessage(str);
     }
+
 
     public int confirmYesNo(String message, String title) {
         return JOptionPane.showConfirmDialog((Component)null, message, title, 0);

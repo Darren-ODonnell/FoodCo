@@ -59,24 +59,29 @@ public class Employee {
 
     @Override
     public String toString() {
+        String str;
+            if (this.courseName == null) {
+                str = "None";
+            } else {
+                str = this.courseName;
+            }
+
         return "Employees{" +
                 "employeeNumber='" + employeeNumber + '\'' +
                 ", name='" + name + '\'' +
                 ", yearsWorking=" + yearsWorking +
-                ", courseName='" + courseName + '\'' +
-                '}';
+                ", courseName='" + str + '\'' +
+                "}\n";
     }
     //Compares employee numbers of 2 employees and returns true or false accordingly
     public boolean compare(Employee emp) {
         return this.getEmployeeNumber().equals(emp.getEmployeeNumber());
     }
 
-    public boolean isLessThan(Employee emp) {
+    public boolean isGreaterThan(Employee emp) {
         // -1 = this < that
         // 0 = this = that
         // 1 = this > that
-
-
 
         return (this.getEmployeeNumber().compareTo(emp.getEmployeeNumber())<0);
     }

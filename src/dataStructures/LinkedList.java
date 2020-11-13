@@ -36,52 +36,53 @@ public class LinkedList<T> implements LinkedListADT<T> {
         LinearNode<T> node = new LinearNode<T> (element);
 
         if (count == 0) {
-            this.front = node; // first node
-            this.last = node;
+            front = node; // first node
         }
         else
             last.setNext(node); // add node to the end of the list
 
-        current = last;
         last = node;
+        current = last;
+
         count++;
     }
 
     //Adds an element to the list at the index provided
-    public void add(T element, int index){
+    public void add(T element, int index) {
 
-        LinearNode<T> prev = new LinearNode<T> ();
-        LinearNode<T> next = new LinearNode<T> ();
-        LinearNode<T> newNode = new LinearNode<T> (element);
+        LinearNode<T> prev = new LinearNode<T>();
+        LinearNode<T> next = new LinearNode<T>();
+        LinearNode<T> newNode = new LinearNode<T>(element);
 
-/** Needed above where this add is called, instead of in here
-        //if(index > count){
-            //Error
-            //get a new number
+        if (count == 0) { // list empty add as first node
+            last = newNode; // This is the last and the
+            front = newNode; // first node
+            current = newNode; // current node
+
+        } else if (index == 1) { // add to head of list
+            newNode.setNext(front);
+            front = newNode;
+
+        } else if (index >= count) { // index is equal to or greater than count - add to end of list
+           last.setNext(newNode);
+           last = last.getNext();
+           current = last;
+
+        } else {
+            // move current to position newNode will be inserted
+            int position = 1;
+            current = front;
+
+            while (index != position) {
+                prev = current;
+                current = current.getNext();
+                position++;
             }
-            if(index == count){
-                add(emp);
-            }
-
- **/
-        if (size() == 0) {
-            this.last = newNode; // This is the last and the
-            this.front = newNode; // first node
-            this.current = newNode; // current node
-            this.count++;
+            prev.setNext(newNode);
+            newNode.setNext(current);
+            current = newNode;
         }
-        // move current to position newnode will be inserted
-        int position = 1;
-        current = front;
-        while(index != position) {
-            prev = current;
-            current=current.getNext();
-            position++;
-        }
-        prev.setNext(newNode);
-        newNode.setNext(current);
         count++;
-
 
     }
 
@@ -132,14 +133,18 @@ public class LinkedList<T> implements LinkedListADT<T> {
     public boolean contains(T element) {
         boolean found = false;
         // start at head of list
-        LinearNode current = this.front;
+        LinearNode<T> current = this.front;
 
-        // while getnext() is not null check list contents
+        // string representation of object used to provide a comparison
+        String elementStr = element.toString();
 
-        while(current.getNext() != null && found == false) {
+        while(current != null && !found){
+
+            String curr = current.getElement().toString();
+
+            found = curr.equals(elementStr);
+
             current = current.getNext();
-            if (current.getElement() == element)
-                found = true;
         }
         return found;
 
@@ -166,15 +171,18 @@ public class LinkedList<T> implements LinkedListADT<T> {
         LinearNode<T> node = front;
         int position = 1;
 
-        if(index == size())
+
+        if(index == count) // last element
             node = last;
-        else
+        else // neither first or last
             while (position != index) {
                 node = node.getNext();
                 position++;
             }
         current = node;
-        return node.getElement();
+        final T element = node.getElement();
+
+        return element;
     }
 
     public void remove(T element){
@@ -215,6 +223,7 @@ public class LinkedList<T> implements LinkedListADT<T> {
                 count--;
         }
 
+        //Used to get the node pointing to the current node for deletion
     private LinearNode<T> getPointerToNode(T element) {
         boolean same = false;
         LinearNode<T> curr = front;

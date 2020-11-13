@@ -5,12 +5,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 public class Tests {
+
     Employees employeeCollection;
     @Before
     public void SetupEmployees() {
         employeeCollection = new Employees();
-        employeeCollection.employees = new LinkedList<>();
         Employee emp = new Employee("10000", "Darren", 3, null);
         employeeCollection.employees.add(emp);
         emp = new Employee("10002", "Darren2", 3, null);
@@ -22,7 +24,6 @@ public class Tests {
     @Test
     public void countEmployees(){
         int count = employeeCollection.employees.size();
-
         Assert.assertEquals(3, count);
     }
 
@@ -38,20 +39,15 @@ public class Tests {
     }
     @Test
     public void addNewEmployeeAtPosition(){
-        listEmployees();
         Employee emp = new Employee("10001", "Darren1", 3, null);
         employeeCollection.employees.add(emp, 2);
         Employee emp2 = employeeCollection.employees.get(2);
 
-        listEmployees();
-
-        returnNext();
-
         int count = employeeCollection.employees.size();
         //Assert.assertEquals("10001", employees.get(2).getEmployeeNumber());
         //Assert.assertEquals("10001", employees.get(3).getEmployeeNumber());
-        Assert.assertEquals("10001", employeeCollection.employees.get(2).getEmployeeNumber());
-        Assert.assertEquals(4, count);
+        assertEquals("10001", employeeCollection.employees.get(2).getEmployeeNumber());
+        assertEquals(4, count);
 
     }
 
@@ -70,16 +66,55 @@ public class Tests {
     @Test
     public void returnLast(){
         Employee emp = employeeCollection.employees.getLast();
-        Assert.assertEquals("10003", emp.getEmployeeNumber());
+        assertEquals("10003", emp.getEmployeeNumber());
     }
 
     @Test
     public void returnNext(){
         Employee current = employeeCollection.employees.get(2);//10001
         Employee next = employeeCollection.employees.getNext();//10002
-        Assert.assertEquals("10001", current);
-        Assert.assertEquals("10002", next);
+        assertEquals("10002", current.getEmployeeNumber());
+        assertEquals("10003", next.getEmployeeNumber());
     }
+    @Test
+    public void returnSecond(){
+        Employee emp = employeeCollection.employees.get(2);
+        assertEquals("10002", emp.getEmployeeNumber());
+    }
+
+    @Test
+    public void ListContainsFirstElement(){
+        boolean contains = employeeCollection.employees.contains(employeeCollection.employees.get(1));
+        assertTrue(contains);
+    }
+    @Test
+    public void ListContainsLastElement(){
+        boolean contains = employeeCollection.employees.contains(employeeCollection.employees.get(3));
+        assertTrue(contains);
+    }
+    @Test
+    public void ListContainsElement(){
+        boolean contains = employeeCollection.employees.contains(employeeCollection.employees.get(2));
+        assertTrue(contains);
+    }
+
+    @Test
+    public void ListDoesNotContainElement(){
+        Employee emp = new Employee("10004", "Darren3", 6, "FOOD123");
+        boolean contains = employeeCollection.employees.contains(emp);
+        assertFalse(contains);
+    }
+    @Test
+    public void findExistingEmployee(){
+
+        Employee emp = new Employee("10000", "Darren", 3, null);
+    }
+    @Test
+    public void display(){
+        listEmployees();
+        employeeCollection.displayAllOnCourses();
+    }
+
 
     private void listEmployees() {
         Employee emp = null;
@@ -97,14 +132,7 @@ public class Tests {
             System.out.println("Training Course: " + str + "\n");
 
         }
+
     }
-
-    @Test
-    public void findExistingEmployee(){
-
-        Employee emp = new Employee("10000", "Darren", 3, null);
-    }
-
-
 
 }

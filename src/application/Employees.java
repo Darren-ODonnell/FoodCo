@@ -16,6 +16,7 @@ public class Employees {
     public LinkedList<Employee> employees = new LinkedList<>();
     Input input = new Input();
     Display win = new Display();
+    boolean debug = true;
 
     final int START_EMPLOYEE_NUMBER = 1000;
     int lastEmployeeNumber = START_EMPLOYEE_NUMBER;
@@ -25,88 +26,106 @@ public class Employees {
     }
 
     //Displays all employees
-    public void displayAll() {
+    public String allToString() {
+        String str = "";
+        int size =employees.size();
+        for(int i =1; i <= size; i++){
 
+            str += employees.get(i).toString();
+            System.out.println(i + " - " +str);
+        }
+        return str;
     }
 
     //Display all employees currently on a course
     public void displayAllOnCourses() {
-
+        for(int i = 1; i <= employees.size(); i++){
+            Employee emp = employees.get(i);
+            if(emp.getCourseName() != null){
+                win.showMessage(emp.toString());
+            }
+        }
     }
 
     //Removes employee with matching employee number
-    public void remove(int empNumber) {
+    public void remove(String empNumber) {
+        String str;
+        for(int i = 0; i < employees.size(); i++){
+            Employee emp  = employees.get(i);
+            if(emp.getEmployeeNumber().equals(empNumber)){
+                employees.remove(emp);
+            }
 
+        }
     }
 
-    public void enterEmployee() {
-        Employee emp = new Employee();
-        String prompt, errMessage;
-        int min, max;
-        boolean found = true;
-        String regexEmpNo = "^[0-9]{5}$";
-        prompt = "Enter Employee Number - 5 digits";
-        String empNo;
-        // Enter Employee Number
-        do {
-            // enter employee number
+    public Employee enterEmployee() {
+        Employee emp;
+        if (debug) {
+            emp = new Employee("10000", "Darren", 3, null);
 
-            empNo = input.string(prompt, regexEmpNo);
-            emp.setEmployeeNumber(empNo);
+        } else {
 
-            if (found = findEmployee(emp))
-                win.showMessage("Error: Employee Number already exists - Please re-enter");
+            emp = new Employee();
+            String prompt, errMessage;
+            int min, max;
+            boolean found = true;
+            String regexEmpNo = "^[0-9]{5}$"; // any sequence of exactly 5 digits only
+            prompt = "Enter Employee Number - 5 digits";
+            String empNo;
+            // Enter Employee Number
+            do {
+                // enter employee number
 
-        } while(found);
+                empNo = input.string(prompt, regexEmpNo);
+                emp.setEmployeeNumber(empNo);
 
-        // enter name
-        prompt = "Input the name of this employee";
-        emp.setName(input.string(prompt));
+                if (found = findEmployee(emp))
+                    win.showMessage("Error: Employee Number already exists - Please re-enter");
 
-        // enter yearsWorking
-        min = 0;
-        max = 100;
-        prompt = "Input the years worked by this employee";
-        errMessage = "Number out of range, please re-enter between " + min + " and " + max;
-        emp.setYearsWorking(input.number(prompt,min,max,errMessage));
+            } while (found);
+
+            // enter name
+            prompt = "Input the name of this employee";
+            emp.setName(input.string(prompt));
+
+            // enter yearsWorking
+            min = 0;
+            max = 100;
+            prompt = "Input the years worked by this employee";
+            errMessage = "Number out of range, please re-enter between " + min + " and " + max;
+            emp.setYearsWorking(input.number(prompt, min, max, errMessage));
 
 
+            // Only allowed do courses if they have over 5 years experience
+            if (emp.getYearsWorking() > 5) {
+                // enter courseName
+                prompt = "Input the course name of this employee";
+                String pattern = "^(?i)FOOD.*"; //Allows anything to be input but the first 4 letter must be FOOD upper/lowercase
+                String courseName = input.string(prompt);
 
-        // Only allowed do courses if they have over 5 years experience
-        if (emp.getYearsWorking() > 5) {
-            // enter courseName
-            prompt = "Input the course name of this employee";
-            String pattern = "^(?i)FOOD.*"; //Allows anything to be input but the first 4 letter must be FOOD upper/lowercase
-            String courseName = input.string(prompt);
-
-            if (courseName.matches(pattern) )
-                emp.setCourseName(input.string(prompt));
-            else
-                emp.setCourseName("ERROR");
+                if (courseName.matches(pattern))
+                    emp.setCourseName(input.string(prompt));
+                else
+                    emp.setCourseName("ERROR");
+            }
         }
-
-        employees.add(emp);
+        return emp;
+        //employees.add(emp);
     }
 
     //Add in chronological order of employeeNumber
-    private void add(Employee emp){
+    public void add(Employee emp){
         // case 1. no elements in list => insert at 1.
         // case 2. somewhere in list in numerical order
         // case 3. no elements greater => insert at end or at employees.size()
         int position=1;
 
-        // case 1 - emplty employee list
-        if (employees.size() == 0)
-            employees.add(emp,position);
-        else {
-            // case 3
-            position = 2;
-            // run through list looking for position to insert new employee
-            while (position < employees.size() && emp.isLessThan(employees.get(position))) {
-                position++;
-            }
-            employees.add(emp,position);
+        // run through list looking for position to insert new employee
+        while (position < employees.size() && emp.isGreaterThan(employees.get(position))) {
+            position++;
         }
+        employees.add(emp,position);
     }
 
     //Scans list to find matching employee
@@ -123,4 +142,20 @@ public class Employees {
     return found;
     }
 
+    public void removeFromCourse(Employee emp){
+            emp.setCourseName(null);
+    }
+
+    public String[] getEmployeeNumbers() {
+        String[] list = new String[employees.size()];
+
+        for(int i = 0; i<employees.size(); i++) {
+            list[i] = employees.get(i).getEmployeeNumber();
+        }
+        return list;
+    }
+
+    public int size() {
+        return employees.size();
+    }
 }
