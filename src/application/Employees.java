@@ -10,6 +10,8 @@ import GUI.Input;
 import dataStructures.LinearNode;
 import dataStructures.LinkedList;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Employees {
@@ -49,11 +51,10 @@ public class Employees {
 
     //Removes employee with matching employee number
     public void remove(String empNumber) {
-        String str;
-        for(int i = 0; i < employees.size(); i++){
+        for(int i = 1; i <= employees.size(); i++){
             Employee emp  = employees.get(i);
             if(emp.getEmployeeNumber().equals(empNumber)){
-                employees.remove(emp);
+                employees.remove(i);
             }
 
         }
@@ -100,14 +101,15 @@ public class Employees {
             // Only allowed do courses if they have over 5 years experience
             if (emp.getYearsWorking() > 5) {
                 // enter courseName
-                prompt = "Input the course name of this employee";
-                String pattern = "^(?i)FOOD.*"; //Allows anything to be input but the first 4 letter must be FOOD upper/lowercase
+                prompt = "Input the course name for this employee";
+                String pattern = "^(?i)FOOD.*"; //Allows anything to be input but the first 4 letters must be FOOD upper/lowercase
                 String courseName = input.string(prompt);
 
                 if (courseName.matches(pattern))
                     emp.setCourseName(input.string(prompt));
-                else
+                else {
                     emp.setCourseName("ERROR");
+                }
             }
         }
         return emp;
@@ -142,20 +144,59 @@ public class Employees {
     return found;
     }
 
-    public void removeFromCourse(Employee emp){
-            emp.setCourseName(null);
+    //Removes all employees from a training course if the courseName matches the course they are on
+    public void removeFromCourse(String courseName){
+        for(int i = 1; i <= employees.size(); i ++) {
+            Employee emp = employees.get(i);
+
+            if(emp.getCourseName() != null)
+                if(emp.getCourseName().equalsIgnoreCase(courseName)) {
+                    employees.remove(emp);
+            }
+        }
     }
 
     public String[] getEmployeeNumbers() {
         String[] list = new String[employees.size()];
 
-        for(int i = 0; i<employees.size(); i++) {
-            list[i] = employees.get(i).getEmployeeNumber();
+        for(int i = 1; i <= employees.size(); i++) {
+            list[i-1] = employees.get(i).getEmployeeNumber();
         }
         return list;
     }
 
+    // create list of course names
+    public String[] getCourseNames() {
+        List<String> list = new ArrayList<>();
+        String courseName;
+        for(int i = 1; i <= employees.size(); i++) {
+            courseName = employees.get(i).getCourseName();
+            if (courseName != null && !courseName.equals("ERROR"))
+                if (!list.contains(courseName))
+                    list.add(courseName);
+        }
+
+        String[] listArray;
+
+        // If true ? set listArray to this : else set listArray to that
+        listArray =  list.size()>0 ?  list.toArray(new String[0])  :  null;
+
+        return listArray;
+    }
+
     public int size() {
         return employees.size();
+    }
+
+    public void displayAll() {
+        String str = "";
+        for(int i =1; i <= employees.size(); i++){
+            str += employees.get(i).toString();
+        }
+        if(!str.isEmpty())
+            win.showMessage(str);
+        else
+            win.showMessage("No Employees in List to Display");
+
     }
 }

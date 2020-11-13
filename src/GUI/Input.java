@@ -54,12 +54,12 @@ public class Input {
         return win.input(prompt);
     }
 
-    // simple regex match using code
-    public String string(String prompt, String code) {
+    // simple regex match using pattern
+    public String string(String prompt, String pattern) {
         String inputStr;
         do{
             inputStr = win.input(prompt);
-        }while(!inputStr.matches(code));
+        }while(!inputStr.matches(pattern));
 
         return inputStr;
     }

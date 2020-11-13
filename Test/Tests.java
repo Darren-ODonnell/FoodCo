@@ -109,6 +109,18 @@ public class Tests {
 
         Employee emp = new Employee("10000", "Darren", 3, null);
     }
+
+    @Test
+    public void removeNodeAtPosition(){
+        employeeCollection.remove("10002");
+        assertEquals("10003",employeeCollection.employees.get(2).getEmployeeNumber());
+    }
+
+    @Test
+    public void getNodeAtPosition(){
+        //assertEquals();
+    }
+
     @Test
     public void display(){
         listEmployees();

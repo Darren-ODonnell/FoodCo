@@ -10,6 +10,7 @@ package dataStructures;
 
 import application.Employee;
 
+import javax.sound.sampled.Line;
 import java.lang.reflect.InvocationTargetException;
 
 public class LinkedList<T> implements LinkedListADT<T> {
@@ -162,6 +163,16 @@ public class LinkedList<T> implements LinkedListADT<T> {
         return current.getElement();
 
     }
+    public LinearNode<T> getPrevious(LinearNode<T> node) {
+        LinearNode<T> previous;
+        previous = front;
+
+        while(previous.getNext() != node)
+            previous = previous.getNext();
+
+        return previous;
+
+    }
 
     public boolean hasNext() {
         return (current != last);
@@ -170,7 +181,6 @@ public class LinkedList<T> implements LinkedListADT<T> {
     public T get(int index) {
         LinearNode<T> node = front;
         int position = 1;
-
 
         if(index == count) // last element
             node = last;
@@ -185,7 +195,10 @@ public class LinkedList<T> implements LinkedListADT<T> {
         return element;
     }
 
+
+
     public void remove(T element){
+        LinearNode<T> nodeToRemove;
         LinearNode<T> previous;
 
         switch(size()) {
@@ -201,29 +214,68 @@ public class LinkedList<T> implements LinkedListADT<T> {
                 break;
             default:
                 previous = getPointerToNode(element);
+                nodeToRemove = previous.getNext();
 
                 // first element in list to be deleted
                 if (previous == front) {
-                    front = front.getNext();
-                    current = front;
-                } else  // last element in list to be deleted
-                    if (previous.getNext() == last) {
+                    if (nodeToRemove == last) {
+                        front = last = previous;
+                        front.setNext(null);
+                    } else if (previous.getNext() == last) {
                         previous.setNext(null);
                         last = previous;
-                        current = previous;
-                    } else { // not front or last
-
-                        current = previous.getNext();
-                        previous.setNext(current.getNext());
-                        current = previous;
-
+                    } else {
+                        previous.setNext(nodeToRemove.getNext());
                     }
-                }
 
+                }
+        }
+        count--;
+    }
+
+    public void remove(int position){
+            LinearNode<T> previous;
+            LinearNode<T> nodeToBeDeleted = getNodeAt(position);
+
+            if (position == 1) {
+                //Head of list
+                if (count == 1) {
+                    //One element in list
+                    front = last = null;
+                    count = 0;
+                } else {
+                    front = front.getNext();
+                    count--;
+                }
+            } else if (position == count) {//Last element to be deleted
+                previous = getPrevious(nodeToBeDeleted);
+                last = previous;
+                last.setNext(null);
                 count--;
+
+            } else {
+                previous = getPrevious(nodeToBeDeleted);
+                previous.setNext(nodeToBeDeleted.getNext());
+                count--;
+            }
         }
 
-        //Used to get the node pointing to the current node for deletion
+
+    private LinearNode<T> getNodeAt(int position) {
+        LinearNode<T> node = front;
+        if(position == 1){//Head of list
+            node = front;
+        }else if(position == count){//End of list
+            node = last;
+        }else{
+            for(int i = 1; i < position; i++){
+                node = node.getNext();
+            }
+        }
+        return node;
+    }
+
+    //Used to get the node pointing to the current node for deletion
     private LinearNode<T> getPointerToNode(T element) {
         boolean same = false;
         LinearNode<T> curr = front;
