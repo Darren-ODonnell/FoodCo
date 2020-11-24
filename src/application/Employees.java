@@ -40,13 +40,15 @@ public class Employees {
     }
 
     //Display all employees currently on a course
-    public void displayAllOnCourses() {
+    public String displayAllOnCourses() {
+        String str = "";
         for(int i = 1; i <= employees.size(); i++){
             Employee emp = employees.get(i);
             if(emp.getCourseName() != null){
-                win.showMessage(emp.toString());
+                str += emp.toString();
             }
         }
+        return str;
     }
 
     //Removes employee with matching employee number
@@ -59,7 +61,7 @@ public class Employees {
 
         }
     }
-
+    //Input details for new employee to be added
     public Employee enterEmployee() {
         Employee emp;
         if (debug) {
@@ -155,7 +157,7 @@ public class Employees {
             }
         }
     }
-
+    //Get all employee numbers as an array of strings, used for searching
     public String[] getEmployeeNumbers() {
         String[] list = new String[employees.size()];
 
@@ -171,7 +173,7 @@ public class Employees {
         String courseName;
         for(int i = 1; i <= employees.size(); i++) {
             courseName = employees.get(i).getCourseName();
-            if (courseName != null && !courseName.equals("ERROR"))
+            if (courseName != null && !courseName.equals("ERROR") && !list.contains(courseName))
                 if (!list.contains(courseName))
                     list.add(courseName);
         }
@@ -183,20 +185,31 @@ public class Employees {
 
         return listArray;
     }
-
+    //return size of list
     public int size() {
         return employees.size();
     }
-
+    //Displays all employees in list
     public void displayAll() {
         String str = "";
         for(int i =1; i <= employees.size(); i++){
             str += employees.get(i).toString();
         }
-        if(!str.isEmpty())
-            win.showMessage(str);
-        else
-            win.showMessage("No Employees in List to Display");
+        win.showMessage(!str.isEmpty() ? str : "No Employees in List to Display");
 
     }
+    //Displays al employees which are eligible for training course
+    public String displayEmployeesEligibleForTrainingCourse(){
+        String str = "";
+        Employee emp;
+        for(int i = 1; i <= employees.size(); i++) {
+            emp = employees.get(i);
+            if(emp.getYearsWorking() >= 5){
+                str += emp.toString();
+            }
+
+        }
+        return str;
+    }
+
 }

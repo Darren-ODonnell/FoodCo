@@ -22,8 +22,12 @@ public class TrainingCourse {
             employeeCollection.employees.add(emp,1);
             emp = new Employee("10002", "Darren2", 2, null);
             employeeCollection.employees.add(emp,2);
-            emp = new Employee("10003", "Darren3", 6, "FOOD123");
-            employeeCollection.employees.add(emp,2);
+//            emp = new Employee("10003", "Darren3", 6, "FOOD123");
+//            employeeCollection.employees.add(emp,3);
+           emp = new Employee("10004", "Darren4", 8, "FOOD234");
+            employeeCollection.employees.add(emp,4);
+            //emp = new Employee("10005", "Darren5", 5, "FOOD123");
+            //employeeCollection.employees.add(emp,5);
         }
         else {
             // 1. Input up to 10 employees, error checking
@@ -37,17 +41,20 @@ public class TrainingCourse {
         removeEmployeeFromTrainingCourse();
 
         // 4. Display all details of employees on training courses
-        employeeCollection.displayAllOnCourses();
+        win.showMessage("All Employees on Training Courses: \n" +
+                        employeeCollection.displayAllOnCourses());
 
         // 5. Delete all employees from course specified
-        deleteEmployeesOnCourse();
+        deleteAllEmployeesOnCourse();
 
         // 6. Display remaining employees
         employeeCollection.displayAll();
 
         // 7. Personal Function(Doesnt need to be last
+        displayEligibility();
     }
 
+    // Input names with error checking inside Employees
     public void inputNames() {
         int employeeCount = input.number("How many employees would you like to input", 1, 10, "Number out of range 1-10");
 
@@ -57,12 +64,13 @@ public class TrainingCourse {
         }
     }
 
-
+    // Display all currently in list
     public void displayAllEmployees() {
         String list = employeeCollection.allToString();
         win.showMessage(list);
     }
 
+    //Remove employee from the training course provided
     public void removeEmployeeFromTrainingCourse() {
         String prompt = "Input the employee number of the employee you want to remove";
         String errMessage = "No employee found with that Employee Number";
@@ -75,7 +83,8 @@ public class TrainingCourse {
         }
     }
 
-    public void deleteEmployeesOnCourse() {
+    // Remove all employees from the training course given
+    public void deleteAllEmployeesOnCourse() {
         String prompt = "Input the Code for the training course you wish to delete all members from";
         String errMessage = "Course does not exist - please re-enter";
 
@@ -85,6 +94,12 @@ public class TrainingCourse {
         employeeCollection.removeFromCourse(courseCode);
     }
 
+    // Display if employee is eligible to be assigned to a training course
+    public void displayEligibility(){
+        String str = employeeCollection.displayEmployeesEligibleForTrainingCourse();
+
+        win.showMessage(str.isEmpty() ? "No employees eligible for training courses": str );
+    }
 
 
     public static void main(String[] args) {

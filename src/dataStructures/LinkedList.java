@@ -32,8 +32,7 @@ public class LinkedList<T> implements LinkedListADT<T> {
     }
 
     //  Adds one element to the end of this list
-    public void add (T element)
-    {
+    public void add (T element) {
         LinearNode<T> node = new LinearNode<T> (element);
 
         if (count == 0) {
@@ -88,8 +87,7 @@ public class LinkedList<T> implements LinkedListADT<T> {
     }
 
     //  Removes and returns the first element from this list
-    public T remove()
-    {
+    public T remove() {
         T result = null;
         if (isEmpty()) {
             System.out.println("There are no nodes in the list");
@@ -102,7 +100,6 @@ public class LinkedList<T> implements LinkedListADT<T> {
         return result;
 
     }
-
 
     //  Returns true if this list contains no elements
     public boolean isEmpty()
@@ -117,9 +114,7 @@ public class LinkedList<T> implements LinkedListADT<T> {
     }
 
     //  Returns a string representation of this list
-
-    public String toString()
-    {
+    public String toString() {
         //LinearNode<T> current = this.front;
         String fullList = "";
 
@@ -131,6 +126,7 @@ public class LinkedList<T> implements LinkedListADT<T> {
         return fullList + "\n";
     }
 
+    // Checks if element is in list
     public boolean contains(T element) {
         boolean found = false;
         // start at head of list
@@ -151,6 +147,31 @@ public class LinkedList<T> implements LinkedListADT<T> {
 
     }
 
+    // finds element passed as parameter and returns an index for the node
+    public int getIndex(T element) {
+        boolean found = false;
+        int index = 0;
+        // start at head of list
+        LinearNode<T> current = this.front;
+
+        // string representation of object used to provide a comparison
+        String elementStr = element.toString();
+
+        while(current != null && !found){
+
+            String curr = current.getElement().toString();
+
+            found = curr.equals(elementStr);
+
+            current = current.getNext();
+
+            index++;
+        }
+        return index;
+
+    }
+
+    // Returns element of next node in list
     public T getNext() {
 
         if (front != null) // implies non empty list
@@ -163,7 +184,9 @@ public class LinkedList<T> implements LinkedListADT<T> {
         return current.getElement();
 
     }
-    public LinearNode<T> getPrevious(LinearNode<T> node) {
+
+    //Returns previous linear node in list, from current position
+    private LinearNode<T> getPrevious(LinearNode<T> node) {
         LinearNode<T> previous;
         previous = front;
 
@@ -174,10 +197,12 @@ public class LinkedList<T> implements LinkedListADT<T> {
 
     }
 
+    // Check if there is a next element in list to avoid null pointers
     public boolean hasNext() {
         return (current != last);
     }
 
+    // returns element at index given
     public T get(int index) {
         LinearNode<T> node = front;
         int position = 1;
@@ -195,44 +220,29 @@ public class LinkedList<T> implements LinkedListADT<T> {
         return element;
     }
 
-
-
+    // Search for element passed as parameter and delete
     public void remove(T element){
         LinearNode<T> nodeToRemove;
         LinearNode<T> previous;
-
-        switch(size()) {
-            case 0:
-                System.out.println("There are no nodes in the list");
-                break;
-            case 1:
-                if (current.getElement().equals(element)) {
-                    front = null;
-                    last = null;
-                } else
-                    System.out.println("This element is not in list - no element removed");
-                break;
-            default:
-                previous = getPointerToNode(element);
-                nodeToRemove = previous.getNext();
-
-                // first element in list to be deleted
-                if (previous == front) {
-                    if (nodeToRemove == last) {
-                        front = last = previous;
-                        front.setNext(null);
-                    } else if (previous.getNext() == last) {
-                        previous.setNext(null);
-                        last = previous;
-                    } else {
-                        previous.setNext(nodeToRemove.getNext());
-                    }
-
-                }
+        int  position = getIndex(element);
+        if(position == 1){
+            //Element is at start of list
+            front = front.getNext();
+        }else if(position == count){
+            //Element is at end of list
+            previous = getPointerToNode(element);
+            previous.setNext(null);
+            last = previous;
+        }else{
+            previous = getPointerToNode(element);
+            current = previous.getNext();
+            previous.setNext(current.getNext());
         }
-        count--;
+        count --;
+//
     }
 
+    // Remove element at position given
     public void remove(int position){
             LinearNode<T> previous;
             LinearNode<T> nodeToBeDeleted = getNodeAt(position);
@@ -260,7 +270,7 @@ public class LinkedList<T> implements LinkedListADT<T> {
             }
         }
 
-
+    // Returns linear node at position given
     private LinearNode<T> getNodeAt(int position) {
         LinearNode<T> node = front;
         if(position == 1){//Head of list
@@ -275,7 +285,7 @@ public class LinkedList<T> implements LinkedListADT<T> {
         return node;
     }
 
-    //Used to get the node pointing to the current node for deletion
+    // Used to get the node pointing to the current node for deletion
     private LinearNode<T> getPointerToNode(T element) {
         boolean same = false;
         LinearNode<T> curr = front;
@@ -285,18 +295,21 @@ public class LinkedList<T> implements LinkedListADT<T> {
             System.out.println("current is null");
         else {
 
-            do {
+            do {/**null pointer in here **/
                 previous = curr;
                 curr = curr.getNext();
-            } while (!curr.getElement().equals(element));
+            } while (curr != null && !curr.getElement().equals(element));
         }
         return previous;
     }
 
+    // Returns fist element in list
     public T getFirst(){
         return this.front.getElement();
 
     }
+
+    //Returns last element in list
     public T getLast(){
         return this.last.getElement();
     }

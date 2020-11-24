@@ -7,23 +7,46 @@ package dataStructures;
 
 public interface LinkedListADT <T>
 	{
-	   //  Adds one element to the start or end of this list
-	   public void add (T element);
+		//  Adds one element to the start or end of this list
+		public void add (T element);
 
-	   //  Removes and returns the first element from this list
-	   public T remove();
-  
-	   //  Returns true if this list contains no elements
-	   public boolean isEmpty();
+		//  Removes and returns the first element from this list
+		public T remove();
 
-	   //  Returns the number of elements in this list
-	   public int size();
+		//  Returns true if this list contains no elements
+		public boolean isEmpty();
 
-	   //  Returns a string representation of this list
-	   public String toString();
+		//  Returns the number of elements in this list
+		public int size();
 
-	   // search if element already exists in list
-	   public boolean contains(T element);
+		//  Returns a string representation of this list
+		public String toString();
 
+		// search if element already exists in list
+		public boolean contains(T element);
+
+		// finds element passed as parameter and returns an index for the node
+		public int getIndex(T element);
+
+		// Returns element of next node in list
+		public T getNext();
+
+		// Check if there is a next element in list to avoid null pointers
+		public boolean hasNext();
+
+		// returns element at index given
+		public T get(int index);
+
+		// Search for element passed as parameter and delete
+		public void remove(T element);
+
+		// Remove element at position given
+		public void remove(int position);
+
+		// Returns fist element in list
+		public T getFirst();
+
+		//Returns last element in list
+		public T getLast();
 }
 

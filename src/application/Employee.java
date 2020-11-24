@@ -60,11 +60,7 @@ public class Employee {
     @Override
     public String toString() {
         String str;
-            if (this.courseName == null) {
-                str = "None";
-            } else {
-                str = this.courseName;
-            }
+        str = this.courseName == null? "None" : this.courseName ;
 
         return "Employees{" +
                 "employeeNumber='" + employeeNumber + '\'' +
@@ -77,7 +73,7 @@ public class Employee {
     public boolean compare(Employee emp) {
         return this.getEmployeeNumber().equals(emp.getEmployeeNumber());
     }
-
+    //Check if this employee has a bigger employee number than employee passed
     public boolean isGreaterThan(Employee emp) {
         // -1 = this < that
         // 0 = this = that
@@ -86,7 +82,7 @@ public class Employee {
         return (this.getEmployeeNumber().compareTo(emp.getEmployeeNumber())<0);
     }
 
-
+//Check for equality
     public boolean equals(Employee emp){
         return (this.employeeNumber.equals(emp.employeeNumber) &&
             this.name.equals(emp.name) &&
